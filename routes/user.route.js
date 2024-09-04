@@ -39,7 +39,7 @@ userRouter.post("/register", async (req, res) => {
                 res.status(201).json({
                     "msg": "user registration success"
                 })
-         })
+            })
 
         }
         else {
@@ -65,7 +65,7 @@ userRouter.post("/login", async (req, res) => {
         if (user) {
             bcrypt.compare(password, user.password, (err, result) => {
                 console.log(password, user.password)
-              
+
                 if (err) {
                     return res.status(500).json({ "msg": `Internal server error ${err}` })
                 }
@@ -76,11 +76,8 @@ userRouter.post("/login", async (req, res) => {
                         token
                     })
                 }
-                if(password!==user.password)
-                {
+                if (password !== user.password) {
                     res.send("you have typed incorrect password , you can redirect to the forgot password")
-                    
-                  
                 }
             })
         }
@@ -94,35 +91,34 @@ userRouter.post("/login", async (req, res) => {
     }
 })
 
-userRouter.post('/forgot-password', async(req, res)=>{
-    const {email, password, confirmPassword}=req.body
+userRouter.post('/forgot-password', async (req, res) => {
+    const { email, password, confirmPassword } = req.body
     try {
-        if(password===confirmPassword){
-            
-            const user=await UserModel.findOne({email:email})
-          if(!user){
-           return res.status(400).send(`User with this email_id is not found `)
-          }
-            
-            bcrypt.hash(password, 5, async (err, hash)=>{
-                    if(err){
-                        return res.status(401).send(`There is something issue ${err}`)
-                    }
-                    
-                    user.password=hash
-                    await user.save()
-                     return res.status(200).send('you are logged in with the new password')
-                    
-                })
+        if (password === confirmPassword) {
+
+            const user = await UserModel.findOne({ email: email })
+            if (!user) {
+                return res.status(400).send(`User with this email_id is not found `)
+            }
+
+            bcrypt.hash(password, 5, async (err, hash) => {
+                if (err) {
+                    return res.status(401).send(`There is something issue ${err}`)
+                }
+
+                user.password = hash
+                await user.save()
+                return res.status(200).send('password reset successfully and now you are logged in')
+
+            })
         }
-        else{
+        else {
             res.send('please type correct password')
         }
-
-
-    } catch (error) {
+    }
+    catch (error) {
         res.status(400).send(`There is something issues ${error}`)
-        
+
     }
 })
 

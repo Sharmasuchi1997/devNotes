@@ -12,6 +12,21 @@ orderRouter.get('/',[userAuth, checkAdmin], (req, res)=>{
 
 // orderRouter.post('/placeOrder', )
 
+// orderRouter.get('/get-order/:_id', async(req, res)=>{
+//     const {_id}=req.params
+//     try {
+//         const getOrder=await ProductModel.find({_id:_id}, req.body)
+//         res.status(200).json({
+//             'msg':"get only product which is ordered",
+//             getOrder
+//         })
+//         Array.push(getOrder)
+//         consolelog(getOrder)
+//     } catch (error) {
+//         res.status(404).send(`There is an issue to get the products ${error}`)
+//     }
+// })
+
 orderRouter.post('/order-product', [userAuth, checkAdmin],async(req, res)=>{
     const {productName, amount, description, rating }=req.body
     try {
@@ -32,8 +47,8 @@ orderRouter.patch('/update-products/:_id', async(req, res)=>{
   
     const{_id}=req.params
     try {
-            const updateProducts=await ProductModel.findByIdAndUpdate({_id:_id})
-        res.status(201).json({
+            const updateProducts=await ProductModel.findByIdAndUpdate({_id:_id}, req.body)
+        res.status(200).json({
             'msg':"product updation successfull",
             updateProducts
         })

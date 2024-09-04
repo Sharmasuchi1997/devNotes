@@ -5,9 +5,11 @@ import userAuth from "./middleware/userAuth.middleware.js"
 import returnRouter from './routes/return.route.js'
 import orderRouter from './routes/order.route.js'
 import productRouter from './routes/product.route.js'
+// import cartRouter from './routes/cart.route.js'
 import cors from 'cors'
 
 import dotenv from 'dotenv'
+
 dotenv.config()
 
 
@@ -20,6 +22,7 @@ server.use('/user', userRouter)
 server.use('/return', returnRouter)
 server.use('/order', orderRouter)
 server.use('/product', productRouter)
+// server.use('/cart', cartRouter)
 server.use(cors({
     origin:'*'
 }))
