@@ -23,9 +23,24 @@ server.use('/return', returnRouter)
 server.use('/order', orderRouter)
 server.use('/product', productRouter)
 // server.use('/cart', cartRouter)
+// server.use(cors({
+//     origin:'*'
+// }))
+
+const allowedOrigins= ["http://localhost:5175","https://devnotes-bb11.onrender.com"]
 server.use(cors({
-    origin:'*'
-}))
+    origin:(origin,callback)=>{
+        console.log("Origin is", origin);
+        if(allowedOrigins.indexOf(origin)!==-1||!origin){
+            console.log("Origin allowed");
+            callback(null,true)
+        }
+        else{
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials:true
+}));
 
 server.get("/", (req, res)=>{
     res.send("server is getting fine")
