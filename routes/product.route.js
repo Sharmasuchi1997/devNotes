@@ -9,10 +9,11 @@ productRouter.get('/', (req, res) => {
         res.send('product Router is here')
 })
 
-productRouter.post('/postProducts',[userAuth],async (req, res) => {
-        const { productName, amount, description, rating } = req.body
+productRouter.post('/postProducts',async (req, res) => {
+        const { imageUrl, productName, amount, description, rating } = req.body
         try {
                 const createProduct = new ProductModel({
+                        imageUrl,
                         productName,
                         amount,
                         description,
